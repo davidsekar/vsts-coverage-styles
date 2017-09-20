@@ -1,6 +1,6 @@
 {
   "name": "vsts-coverage-styles",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "This package helps to convert the external css files in an HTML to an internal style i.e., injected using style tag in the document head.",
   "main": "index.js",
   "scripts": {
