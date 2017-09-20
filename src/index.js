@@ -7,13 +7,14 @@ const cleanCSS = require('clean-css');
 var appRoot = require('app-root-path');
 
 module.exports = function (options) {
-    if(!(options && options.coverageDir))
+    if (!(options && options.coverageDir))
         throw new Error('coverageDir param is required');
 
     const defaultOpts = {
         coverageDir: './',
         pattern: '/**/*.html',
         fileEncoding: 'utf8',
+        extraCss: '',
         minifyOptions: {
 
         }
@@ -33,6 +34,10 @@ module.exports = function (options) {
 
         let fileCache = {};
 
+        if (opts.extraCss) {
+            opts.extraCss = new cleanCSS(opts.minifyOptions).minify(opts.extraCss).styles;
+        }
+
         files.forEach((file) => {
             fs.readFile(file, opts.fileEncoding, (fileErr, data) => {
                 const $ = cheerio.load(data);
@@ -47,9 +52,15 @@ module.exports = function (options) {
 
                     $('<style/>').html(fileCache[resolvedHref]).insertAfter(jElem);
                     jElem.remove();
-                    fs.writeFile(file, $.html(), () => {
-                        // console.log(file + ' written');
-                    });
+                });
+
+                if (opts.extraCss) {
+                    var customCssObj = $('<style/>').html(opts.extraCss);
+                    $('head').append(customCssObj);
+                }
+
+                fs.writeFile(file, $.html(), () => {
+                    // console.log(file + ' written');
                 });
             });
         });
