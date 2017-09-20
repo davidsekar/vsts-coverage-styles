@@ -4,6 +4,7 @@ const path = require('path');
 const glob = require('glob');
 const merge = require('merge');
 const cleanCSS = require('clean-css');
+var appRoot = require('app-root-path');
 
 module.exports = function (options) {
     if(!(options && options.coverageDir))
@@ -18,8 +19,10 @@ module.exports = function (options) {
         }
     }
 
+    let appRootPath = appRoot.path;
+
     let opts = merge(defaultOpts, options);
-    let root = path.resolve(opts.coverageDir);
+    let root = path.resolve(appRootPath, opts.coverageDir);
     let globPattern = root + opts.pattern;
     // console.log(globPattern);
 
