@@ -6,6 +6,10 @@ const merge = require('merge');
 const cleanCSS = require('clean-css');
 var appRoot = require('app-root-path');
 
+var dummyFn = function (html) {
+    return html;
+}
+
 module.exports = function (options) {
     if (!(options && options.coverageDir))
         throw new Error('coverageDir param is required');
@@ -17,7 +21,9 @@ module.exports = function (options) {
         extraCss: '',
         minifyOptions: {
 
-        }
+        },
+        preProcessFn: dummyFn,
+        postProcessFn: dummyFn
     }
 
     let appRootPath = appRoot.path;
@@ -40,6 +46,8 @@ module.exports = function (options) {
 
         files.forEach((file) => {
             fs.readFile(file, opts.fileEncoding, (fileErr, data) => {
+                data = opts.preProcessFn(data);
+
                 const $ = cheerio.load(data);
                 $('link[rel="stylesheet"]').each(function (idx, elem) {
                     let jElem = $(elem);
@@ -59,7 +67,9 @@ module.exports = function (options) {
                     $('head').append(customCssObj);
                 }
 
-                fs.writeFile(file, $.html(), () => {
+                let processedHTML = opts.postProcessFn($.html());
+
+                fs.writeFile(file, processedHTML, () => {
                     // console.log(file + ' written');
                 });
             });
