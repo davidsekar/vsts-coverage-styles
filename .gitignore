@@ -60,3 +60,4 @@ typings/
 # local test files
 test
 testdata
+package-lock.json
