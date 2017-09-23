@@ -1,15 +1,15 @@
-# vsts-coverage-styles
+# Vsts coverage styles
 
-This package helps to convert the external css files linked in an HTML into an internal style i.e., by injecting in HTML using ```<style>``` tag in the document head.
+This package helps to convert the external css files linked in an HTML into an internal style i.e., by injecting in HTML using `<style>` tag in the document head.
 It follows the same order while injecting CSS back in the HTML.
 
 It doesn't do anything else, so it is as simple and fast as it can.
 
-install using ``` npm install vsts-coverage-styles --save ```
+install using `npm install vsts-coverage-styles --save `
 
 Following is how you can consume the package from the nodejs file.
 
-The override css allows you to fix the glitches due to VSTS stripping :after & :before selectors, images & charsets
+The override css allows you to fix the glitches due to VSTS stripping pseudo selectors like :after & :before selectors, images & charsets
 
 ```
 /**
@@ -42,5 +42,8 @@ vstsCoverageStyles({
     postProcessFn: function(html) {
         return html;
     }
-});```
+});
+```
 
+To know about the assumptions and the optimization done for this plugin, check out the following article
+[Code coverage HTML reports are missing styles in VSTS](https://davidsekar.com/aspnetcore/code-coverage-html-reports-are-missing-styles-in-vsts)
