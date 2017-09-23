@@ -1,6 +1,6 @@
 # vsts-coverage-styles
 
-This package helps to convert the external css files linked in an HTML into an internal style i.e., by injecting in HTML using <style> tag in the document head.
+This package helps to convert the external css files linked in an HTML into an internal style i.e., by injecting in HTML using ```<style>``` tag in the document head.
 It follows the same order while injecting CSS back in the HTML.
 
 It doesn't do anything else, so it is as simple and fast as it can.
