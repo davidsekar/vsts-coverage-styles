@@ -1,17 +1,19 @@
 # Vsts coverage styles
 
-This package helps to convert the external css files linked in an HTML into an internal style i.e., by injecting in HTML using `<style>` tag in the document head.
-It follows the same order while injecting CSS back in the HTML.
+Converts all externally linked CSS files in an HTML document into internal styles, by loading & injecting the RAW CSS styles as text within `<style>` tags into HTML document `<head>` section. It follows the same exact CSS file linking order, while injecting back the CSS styles using `<style>` tags. So, CSS override orders are preserved and appears as expected.
 
-It doesn't do anything else, so it is as simple and fast as it can.
+This plugin was initially designed with an idea to workaround the external CSS linking restrictions in VSTS(Azure DevOps) code coverage report tab in Build Summary. But, this package can also be used in similar situations.
 
-install using `npm install vsts-coverage-styles --save `
+It focuses primarily on improving the HTML report manipulation speed by caching the repeatedly accessed external CSS files, thus allowing it to complete its inlining process as fast as it can, compared to similar packages.
 
-Following is how you can consume the package from the nodejs file.
+You can install it as development dependency,
+using `npm install vsts-coverage-styles --save-dev`
 
-The override css allows you to fix the glitches due to VSTS stripping pseudo selectors like :after & :before selectors, images & charsets
+After installation, you can simply require & consume the package from your nodejs file. Also, this package allows you to hook your custom logics to pre-processing and post-processing events using `preProcessFn` & `postProcessFn` params.
 
-```
+The override CSS parameter allows you provide additional styles to append to your coverage reports and fix display glitches, that are caused due to stripping of pseudo selectors like :after & :before selectors, images & charsets from your CSS file by VSTS security mechanism.
+
+```JavaScript
 /**
  * Vsts test coverage view doesn't load external CSS due to security reasons.
  * So we are converting all external css files to internal <style> tags using vsts-coverage-styles (node module).
@@ -45,5 +47,5 @@ vstsCoverageStyles({
 });
 ```
 
-To know about the assumptions and the optimization done for this plugin, check out the following article
+To know about the assumptions and optimization factors considered for this plugin, kindly read through the following article
 [Code coverage HTML reports are missing styles in VSTS](https://davidsekar.com/aspnetcore/code-coverage-html-reports-are-missing-styles-in-vsts)
